@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Auklet News Reader</string>
+    <string name="action_settings">Settings</string>
+    <string name="thumbnail_description">News image</string>
+
+    <!--Mockups' strings-->
+    <string name="default_title">Default title try to override text length by putting too
+        much text in the title of this news. Let\'s hope it\'s ok.</string>
+    <string name="default_text">This is a sample text.  Try to override text length by putting too
+        much text of this news. Let\'s hope it\'s ok and it\'s long enough to test it. I
+        shall see how does it work. How much more characters will fit? Is it not enough
+        already?</string>
+    <string name="default_date">31-Dec 23:59</string>
+
+
+
+</resources>
