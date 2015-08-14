@@ -11,7 +11,8 @@
         shall see how does it work. How much more characters will fit? Is it not enough
         already?</string>
     <string name="default_date">31-Dec 23:59</string>
-
+    <string name="sync_account_type" translatable="false">aukletnewsreader.gmail.com</string>
+    <string name="content_authority" translatable="false">com.gmail.deluramichal.aukletnewsreader</string>
 
 
 </resources>

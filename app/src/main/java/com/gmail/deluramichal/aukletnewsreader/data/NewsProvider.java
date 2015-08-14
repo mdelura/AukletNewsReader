@@ -133,6 +133,7 @@ public class NewsProvider extends ContentProvider{
 
         switch (match) {
             case ITEM: {
+                normalizeDate(values);
                 long _id = db.insert(NewsContract.ItemEntry.TABLE_NAME, null, values);
                 if ( _id > 0 )
                     returnUri = NewsContract.ItemEntry.buildItemUri(_id);
@@ -189,6 +190,7 @@ public class NewsProvider extends ContentProvider{
 
         switch (match) {
             case ITEM:
+                normalizeDate(values);
                 rowsUpdated = db.update(NewsContract.ItemEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
@@ -215,6 +217,7 @@ public class NewsProvider extends ContentProvider{
                 int returnCount = 0;
                 try {
                     for (ContentValues value : values) {
+                        normalizeDate(value);
                         long _id = db.insert(NewsContract.ItemEntry.TABLE_NAME, null, value);
                         if (_id != -1) {
                             returnCount++;
@@ -229,5 +232,13 @@ public class NewsProvider extends ContentProvider{
             default:
                 return super.bulkInsert(uri, values);
         }
+    }
+
+    private void normalizeDate(ContentValues values) {//TODO
+        // normalize the date value
+//        if (values.containsKey(NewsContract.ItemEntry.COLUMN_PUB_DATE)) {
+//            long dateValue = values.getAsLong(NewsContract.ItemEntry.COLUMN_PUB_DATE);
+//            values.put(NewsContract.ItemEntry.COLUMN_PUB_DATE, NewsContract.normalizeDate(dateValue));
+//        }
     }
 }

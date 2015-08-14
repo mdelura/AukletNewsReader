@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.gmail.deluramichal.aukletnewsreader.sync.AukletSyncAdapter;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -13,6 +14,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        AukletSyncAdapter.initializeSyncAdapter(this);
     }
 
 

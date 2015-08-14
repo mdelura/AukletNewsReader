@@ -60,14 +60,15 @@ public class NewsContract {
         public static final String COLUMN_LINK = "link";
         public static final String COLUMN_CONTENT = "content";
         public static final String COLUMN_DESCRIPTION = "description";
-        public static final String COLUMN_PUB_DATE = "pubDate";
+        public static final String COLUMN_PUB_DATE = "pub_date";
 
         //Source of thumbnail or image store
         public static final String COLUMN_IMAGE_SRC = "image_src";
         public static final String COLUMN_IMAGE = "image";
 
-        //Channel key
+        //Channel key & sync date
         public static final String COLUMN_CHANNEL_KEY = "channel_id";
+        public static final String COLUMN_SYNC_DATE = "sync_date";
 
         public static Uri buildItemUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);

@@ -42,9 +42,10 @@ public class NewsDbOpenHelper extends SQLiteOpenHelper {
                 ItemEntry.COLUMN_LINK + " TEXT, " +
                 ItemEntry.COLUMN_CONTENT + " TEXT, " +
                 ItemEntry.COLUMN_DESCRIPTION + " TEXT, " +
-                ItemEntry.COLUMN_PUB_DATE + " TEXT, " +
-                ItemEntry.COLUMN_IMAGE + " TEXT, " +
-                ItemEntry.COLUMN_IMAGE_SRC + " BLOB, " +
+                ItemEntry.COLUMN_PUB_DATE + " INTEGER, " +
+                ItemEntry.COLUMN_IMAGE_SRC + " TEXT, " +
+                ItemEntry.COLUMN_IMAGE + " BLOB, " +
+                ItemEntry.COLUMN_SYNC_DATE + " INTEGER NOT NULL, " +
 
                 // Set up the Channel column as a foreign key to Channel table.
                 " FOREIGN KEY (" + ItemEntry.COLUMN_CHANNEL_KEY + ") REFERENCES " +
