@@ -234,7 +234,7 @@ public class NewsProvider extends ContentProvider{
         }
     }
 
-    private void normalizeDate(ContentValues values) {//TODO
+    private void normalizeDate(ContentValues values) {//TODO: ?Implement?
         // normalize the date value
 //        if (values.containsKey(NewsContract.ItemEntry.COLUMN_PUB_DATE)) {
 //            long dateValue = values.getAsLong(NewsContract.ItemEntry.COLUMN_PUB_DATE);
