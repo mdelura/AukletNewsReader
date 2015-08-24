@@ -19,7 +19,7 @@ import com.gmail.deluramichal.aukletnewsreader.data.NewsContract;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class NewsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private final static String URL_TVN24 = "http://www.tvn24.pl/najnowsze.xml";
     private final static String URL_REUTERS = "http://feeds.reuters.com/news/artsculture";
@@ -56,7 +56,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     private NewsAdapter mNewsAdapter;//TODO: Implement adapter
     private int mPosition;
 
-    public MainActivityFragment() {
+    public NewsFragment() {
     }
 
     @Override

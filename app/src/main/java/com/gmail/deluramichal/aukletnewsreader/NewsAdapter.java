@@ -64,17 +64,17 @@ public class NewsAdapter extends CursorAdapter {
 
         ViewHolder viewHolder = (ViewHolder) view.getTag();
         // Read news image ID from cursor
-        viewHolder.newsId = cursor.getInt(MainActivityFragment.COL_NEWS_ID);
-        viewHolder.channelId = cursor.getInt(MainActivityFragment.COL_CHANNEL_KEY);
-        viewHolder.newsLink = cursor.getString(MainActivityFragment.COL_LINK);
+        viewHolder.newsId = cursor.getInt(NewsFragment.COL_NEWS_ID);
+        viewHolder.channelId = cursor.getInt(NewsFragment.COL_CHANNEL_KEY);
+        viewHolder.newsLink = cursor.getString(NewsFragment.COL_LINK);
 
         //Set title
-        String title = cursor.getString(MainActivityFragment.COL_TITLE);
+        String title = cursor.getString(NewsFragment.COL_TITLE);
         viewHolder.titleView.setText(title);
 
         //Set image//TODO: Check if zero-length byte array or something
         if (getItemViewType(cursor.getPosition())==VIEW_TYPE_WITH_IMAGE) {
-            byte[] imageBytes = cursor.getBlob(MainActivityFragment.COL_IMAGE);
+            byte[] imageBytes = cursor.getBlob(NewsFragment.COL_IMAGE);
             Bitmap bitmapFromBytes =
                     BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
             viewHolder.thumbnailView.setImageBitmap(bitmapFromBytes);
@@ -82,10 +82,10 @@ public class NewsAdapter extends CursorAdapter {
         }
 
         // Read date from cursor
-        long dateInMillis = cursor.getLong(MainActivityFragment.COL_PUB_DATE);
+        long dateInMillis = cursor.getLong(NewsFragment.COL_PUB_DATE);
         viewHolder.dateView.setText(
                 new Date(dateInMillis).toString());
-        viewHolder.descriptionView.setText(cursor.getString(MainActivityFragment.COL_DESCRIPTION));
+        viewHolder.descriptionView.setText(cursor.getString(NewsFragment.COL_DESCRIPTION));
 
     }
 
