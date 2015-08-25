@@ -3,6 +3,7 @@ package com.gmail.deluramichal.aukletnewsreader.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.gmail.deluramichal.aukletnewsreader.data.NewsContract.ChannelEntry;
 import com.gmail.deluramichal.aukletnewsreader.data.NewsContract.ItemEntry;
@@ -25,17 +26,17 @@ public class NewsDbOpenHelper extends SQLiteOpenHelper {
 
         // Table to store Channels and URL Sources. There can be only one entry for given URL
         final String SQL_CREATE_CHANNEL_TABLE = "CREATE TABLE " + ChannelEntry.TABLE_NAME + " (" +
-                ChannelEntry._ID + " INTEGER PRIMARY KEY, " +
-                ChannelEntry.COLUMN_SOURCE_URL + " UNIQUE TEXT NOT NULL, " +
+                ChannelEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                ChannelEntry.COLUMN_SOURCE_URL + " TEXT NOT NULL, " +
                 ChannelEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
                 ChannelEntry.COLUMN_LINK + " TEXT NOT NULL, " +
                 ChannelEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
                 ChannelEntry.COLUMN_LANGUAGE + " TEXT, " +
-                ChannelEntry.COLUMN_CATEGORY + " TEXT " +
-                " );";
+                ChannelEntry.COLUMN_CATEGORY + " TEXT, " +
+                "UNIQUE (" + ChannelEntry.COLUMN_SOURCE_URL + ") ON CONFLICT IGNORE);";
 
         final String SQL_CREATE_ITEM_TABLE = "CREATE TABLE " + ItemEntry.TABLE_NAME + " (" +
-                ItemEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                ItemEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 // the ID of this item channel
                 ItemEntry.COLUMN_CHANNEL_KEY + " INTEGER NOT NULL, " +
                 ItemEntry.COLUMN_TITLE + " TEXT, " +
@@ -54,6 +55,9 @@ public class NewsDbOpenHelper extends SQLiteOpenHelper {
                 // Put new items only if there aren't already there
                 " UNIQUE (" + ItemEntry.COLUMN_LINK + ", " +
                 ItemEntry.COLUMN_CHANNEL_KEY + ") ON CONFLICT IGNORE);";
+
+        Log.d("xxxTag", SQL_CREATE_CHANNEL_TABLE);
+        Log.d("xxxTag", SQL_CREATE_ITEM_TABLE);
 
         db.execSQL(SQL_CREATE_CHANNEL_TABLE);
         db.execSQL(SQL_CREATE_ITEM_TABLE);

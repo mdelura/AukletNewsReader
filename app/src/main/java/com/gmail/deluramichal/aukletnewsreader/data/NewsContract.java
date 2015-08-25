@@ -46,7 +46,7 @@ public class NewsContract {
 
     public static final class ItemEntry implements BaseColumns {
         public static final Uri CONTENT_URI =
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH_CHANNEL).build();
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_ITEM).build();
 
         public static final String CONTENT_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_ITEM;
