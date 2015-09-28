@@ -14,8 +14,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.gmail.deluramichal.aukletnewsreader.R;
+
 import com.gmail.deluramichal.aukletnewsreader.data.NewsContract;
+import com.gmail.deluramichal.aukletnewsreader.R;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -78,16 +79,12 @@ public class AukletSyncAdapter extends AbstractThreadedSyncAdapter {
                 null,
                 null);
 
-        if (channelCursor.getCount()!=0) {
-            //Loop through all of the channels
-            while (!channelCursor.isAfterLast()) {
+            while (channelCursor.moveToNext()) {
                 //Fetch RSS feed from channel's link
                 getRssFeed(
                         channelCursor.getInt(COL_CHANNEL_ID),
                         channelCursor.getString(COL_CHANNEL_SOURCE_URL));
-                channelCursor.moveToNext();
             }
-        }
         channelCursor.close();
     }
 
@@ -132,13 +129,18 @@ public class AukletSyncAdapter extends AbstractThreadedSyncAdapter {
 //            String imgRegex = "<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>";
             //Jsoup version
             String imgSrcFromHtml = rssItem.getDescription();
-            Document docFromDescription = Jsoup.parse(//TODO: Check: May throw runtime errors
+            Document docFromDescription = Jsoup.parse(
                     rssItem.getDescription(), NEWS_MIME_TYPE);
             Element imageFromDescription = docFromDescription.select(IMAGE_ELEMENT_TAG).first();
-            String imageSource = imageFromDescription.attr(IMAGE_SOURCE_ATTRIBUTE);
 
-            newsValues.put(NewsContract.ItemEntry.COLUMN_IMAGE_SRC, imageSource);
-            newsValues.put(NewsContract.ItemEntry.COLUMN_IMAGE, getBytesFromImageFromUrl(imageSource));
+            try {
+                String imageSource = imageFromDescription.attr(IMAGE_SOURCE_ATTRIBUTE);
+
+                newsValues.put(NewsContract.ItemEntry.COLUMN_IMAGE_SRC, imageSource);
+                newsValues.put(NewsContract.ItemEntry.COLUMN_IMAGE, getBytesFromImageFromUrl(imageSource));
+            } catch (NullPointerException e) {
+                Log.d(LOG_TAG, "No image source");
+            }
             cVVector.add(newsValues);
         }
 

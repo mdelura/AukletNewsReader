@@ -211,14 +211,22 @@ public class NewsProvider extends ContentProvider{
     public int bulkInsert(Uri uri, ContentValues[] values) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
+        String targetTable = null;
         switch (match) {
             case ITEM:
+                targetTable = NewsContract.ItemEntry.TABLE_NAME;
+                break;
+            case CHANNEL:
+                targetTable = NewsContract.ChannelEntry.TABLE_NAME;
+                break;
+        }
+        long _id = -1;
+        int returnCount = 0;
                 db.beginTransaction();
-                int returnCount = 0;
                 try {
                     for (ContentValues value : values) {
-                        normalizeDate(value);
-                        long _id = db.insert(NewsContract.ItemEntry.TABLE_NAME, null, value);
+                      if (match==ITEM) normalizeDate(value);
+                        _id = db.insert(targetTable, null, value);
                         if (_id != -1) {
                             returnCount++;
                         }
@@ -229,9 +237,6 @@ public class NewsProvider extends ContentProvider{
                 }
                 getContext().getContentResolver().notifyChange(uri, null);
                 return returnCount;
-            default:
-                return super.bulkInsert(uri, values);
-        }
     }
 
     private void normalizeDate(ContentValues values) {//TODO: ?Implement?
