@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.gmail.deluramichal.aukletnewsreader.data.NewsContract;
 
@@ -26,6 +27,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
     private final static String DEBUG_TAG = NewsFragment.class.getSimpleName() + " DEBUG: ";
     private final static boolean USE_IMAGE = false; //TODO: Get from Settings or something
     private static final String ACTIVE_ITEM = "active_item";
+    private static final int EXPANDED_DESCRIPTION_LINES = 6;
     private static final int NEWS_LOADER = 0;
     private static final String[] NEWS_COLUMNS = {
             NewsContract.ItemEntry._ID,
@@ -69,13 +71,12 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
         }else
             mNewsAdapter.setViewType(NewsAdapter.VIEW_TYPE_NO_IMAGE);
         // Get a reference to the ListView, and attach this adapter to it.
-        ListView listView = (ListView) rootView.findViewById(R.id.list_view);
+        final ListView listView = (ListView) rootView.findViewById(R.id.list_view);
         listView.setAdapter(mNewsAdapter);
 
         if (null !=savedInstanceState && savedInstanceState.containsKey(ACTIVE_ITEM)) {
             mPosition = savedInstanceState.getInt(ACTIVE_ITEM);
         }
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -84,29 +85,30 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
                 // if it cannot seek to that position.
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
                 if (cursor != null) {
-                    //Go to link
-                    String url = cursor.getString(COL_LINK);
-                    Uri webpage = Uri.parse(url);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                    if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-                        startActivity(intent);
-                    } else {
-                        Log.d(DEBUG_TAG, "Couldn't call " + webpage.toString() + ", no receiving apps " +
-                                "installed!");
+                    //Find Description view
+                    TextView descriptionView =
+                            (TextView) view.findViewById(R.id.list_item_description);
+                    //Expand description on first click
+                    //Check if it's tagged with object - then was already clicked
+                    if (descriptionView.getTag() == null) {
+                        descriptionView.setMaxLines(EXPANDED_DESCRIPTION_LINES);
+                        descriptionView.setTag(new Object());
+                    } else { //Go to link
+                        String url = cursor.getString(COL_LINK);
+                        Uri webPage = Uri.parse(url);
+                        Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
+                        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                            startActivity(intent);
+                        } else {
+                            Log.d(DEBUG_TAG, "Couldn't call " + webPage.toString() + ", no receiving apps " +
+                                    "installed!");
+                        }
                     }
                 }
-            }});    
-        
-        //TODO: *3 Add Select channels function, see:
-        //TODO:     ***a Make mockup for now
-        //TODO: *4 Try it out!
-        //TODO: *6 Add appwidget
-        //TODO: *7 Add Settings
-        //TODO: *8 Select items visible
+            }
+        });
 
         return rootView;
-
-
     }
 
     @Override
@@ -144,6 +146,9 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         mNewsAdapter.swapCursor(cursor);
         ListView listView = (ListView) getActivity().findViewById(R.id.list_view);
+        if (cursor.getCount() != 0) {
+            getActivity().findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+        }
         //TODO: Error Nullpointer exception
 //        if (mPosition != ListView.INVALID_POSITION) {
 //            listView.smoothScrollToPosition(mPosition);

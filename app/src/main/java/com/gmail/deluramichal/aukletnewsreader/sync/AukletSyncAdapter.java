@@ -14,9 +14,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
-
-import com.gmail.deluramichal.aukletnewsreader.data.NewsContract;
 import com.gmail.deluramichal.aukletnewsreader.R;
+import com.gmail.deluramichal.aukletnewsreader.data.NewsContract;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -29,6 +28,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Vector;
 
 import nl.matshofman.saxrssreader.RssFeed;
@@ -53,6 +54,7 @@ public class AukletSyncAdapter extends AbstractThreadedSyncAdapter {
     private static final String IMAGE_SOURCE_ATTRIBUTE = "src";
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
     private static final long DAYS_DATA_STORED = DAY_IN_MILLIS * 3;//TODO: Get from Settings
+    private static final int YEAR_2000 = 2000;
 
     private static final String[] CHANNEL_SOURCES = {
             NewsContract.ChannelEntry._ID,
@@ -110,6 +112,7 @@ public class AukletSyncAdapter extends AbstractThreadedSyncAdapter {
         long dayTime = System.currentTimeMillis();
 
         for (RssItem rssItem : rssItems) {
+            Log.d(LOG_TAG, "CHANNEL_KEY: " + channelId);
             Log.d(LOG_TAG, "Title: " + rssItem.getTitle());
             Log.d(LOG_TAG, "Content: " + rssItem.getContent());
             Log.d(LOG_TAG, "Description: " + rssItem.getDescription());
@@ -119,20 +122,24 @@ public class AukletSyncAdapter extends AbstractThreadedSyncAdapter {
             ContentValues newsValues = new ContentValues();
             newsValues.put(NewsContract.ItemEntry.COLUMN_CHANNEL_KEY, channelId);
             newsValues.put(NewsContract.ItemEntry.COLUMN_CONTENT, rssItem.getContent());
-            newsValues.put(NewsContract.ItemEntry.COLUMN_DESCRIPTION, rssItem.getDescription());
             newsValues.put(NewsContract.ItemEntry.COLUMN_LINK, rssItem.getLink());
             newsValues.put(NewsContract.ItemEntry.COLUMN_TITLE, rssItem.getTitle());
-            newsValues.put(NewsContract.ItemEntry.COLUMN_PUB_DATE, rssItem.getPubDate().getTime());
+            newsValues.put(NewsContract.ItemEntry.COLUMN_PUB_DATE,
+                    validateDateYear(rssItem.getPubDate()));
             newsValues.put(NewsContract.ItemEntry.COLUMN_SYNC_DATE, dayTime);
 
-            //RegEx version
-//            String imgRegex = "<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>";
-            //Jsoup version
-            String imgSrcFromHtml = rssItem.getDescription();
+            //Get data from description
             Document docFromDescription = Jsoup.parse(
                     rssItem.getDescription(), NEWS_MIME_TYPE);
             Element imageFromDescription = docFromDescription.select(IMAGE_ELEMENT_TAG).first();
-
+            //Get actual description string without html tags
+            try {
+                newsValues.put(NewsContract.ItemEntry.COLUMN_DESCRIPTION,
+                        docFromDescription.text());
+            } catch (NullPointerException e) {
+                Log.d(LOG_TAG, "No description");
+            }
+            //Get image and image source URL
             try {
                 String imageSource = imageFromDescription.attr(IMAGE_SOURCE_ATTRIBUTE);
 
@@ -161,6 +168,16 @@ public class AukletSyncAdapter extends AbstractThreadedSyncAdapter {
         }
 
         Log.d(LOG_TAG, "Fetch RSS feed " + channelSourceUrl + " complete. " + inserted + " Inserted");
+    }
+
+    private long validateDateYear(Date date) {
+        //Validates if date's year is earlier than 2000 - if so change +2000 years
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        if (calendar.get(Calendar.YEAR) < YEAR_2000) {
+            calendar.add(Calendar.YEAR, YEAR_2000);
+        }
+        return calendar.getTimeInMillis();
     }
 
     private byte[] getBytesFromImageFromUrl(String sourceUrl) {

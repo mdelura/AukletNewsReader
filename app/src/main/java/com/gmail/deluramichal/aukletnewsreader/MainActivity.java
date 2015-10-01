@@ -42,11 +42,10 @@ public class MainActivity extends AppCompatActivity {
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this,
                 SearchChannels.class)));
         searchView.setIconifiedByDefault(false);
-        searchView.requestFocus();//TODO: how to show keyboard?
+        //searchView.requestFocus();//TODO: how to show keyboard?
 
         return true;
     }

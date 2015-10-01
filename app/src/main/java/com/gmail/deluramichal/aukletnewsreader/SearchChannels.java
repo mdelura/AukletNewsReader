@@ -13,6 +13,7 @@ import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -89,6 +90,11 @@ public class SearchChannels extends AppCompatActivity {
                     "http://www.tvn24.pl/najwazniejsze.xml",
                     "http://www.tvn24.pl/wiadomosci-z-kraju,3.xml",
                     "http://www.tvn24.pl/internet-hi-tech-media,40.xml",
+                    "http://www.tvn24.pl/wiadomosci-ze-swiata,2.xml",
+                    "http://www.tvn24.pl/biznes-gospodarka,6.xml",
+                    "http://www.tvn24.pl/kultura-styl,8.xml",
+                    "http://www.tvn24.pl/ciekawostki-michalki,5.xml",
+                    "http://www.tvn24.pl/warszawa,41.xml",
                     "http://feeds.reuters.com/news/artsculture",
                     "http://feeds.reuters.com/reuters/technologyNews",
                     "http://feeds.reuters.com/Reuters/worldNews",
@@ -127,6 +133,9 @@ public class SearchChannels extends AppCompatActivity {
                 return true;
             case R.id.action_select_channels:
                 addSelectedChannels();
+                finish();
+//                Intent newsIntent = new Intent(getApplicationContext(), MainActivity.class);
+//                startActivity(newsIntent);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -191,19 +200,19 @@ public class SearchChannels extends AppCompatActivity {
                 RssFeed feed = null;
                 try {
                     feed = RssReader.read(url);
+                    //Add channel to Cursor
+                    MatrixCursor.RowBuilder newRow = cursor.newRow();
+                    newRow.add(0);
+                    newRow.add(feed.getTitle());
+                    newRow.add(feed.getLink());
+                    newRow.add(feed.getDescription());
+                    newRow.add(channelUrl);
+                    newRow.add(feed.getLanguage());
                 } catch (SAXException e) {
                     Log.e(e.getClass().getSimpleName(), e.getMessage());
                 } catch (IOException e) {
                     Log.e(e.getClass().getSimpleName(), e.getMessage());
                 }
-                //Add channel to Cursor
-                MatrixCursor.RowBuilder newRow = cursor.newRow();
-                newRow.add(0);
-                newRow.add(feed.getTitle());
-                newRow.add(feed.getLink());
-                newRow.add(feed.getDescription());
-                newRow.add(channelUrl);
-                newRow.add(feed.getLanguage());
             }
             return cursor;
         }
@@ -212,6 +221,7 @@ public class SearchChannels extends AppCompatActivity {
         protected void onPostExecute(Cursor rssFeeds) {
             if (rssFeeds != null) {
                 mAdapter.changeCursor(rssFeeds);
+                findViewById(R.id.loadingPanel).setVisibility(View.GONE);
             } else {
                 Toast.makeText
                         (getApplicationContext(), R.string.noChannels, Toast.LENGTH_SHORT).show();
