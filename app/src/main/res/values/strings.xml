@@ -21,6 +21,7 @@
     <string name="noConnection">No network connection available</string>
     <string name="noChannels">No channels found</string>
     <string name="selectChannels">Select Channels</string>
+    <string name="no_data">No news to show.</string>
 
 
 </resources>
