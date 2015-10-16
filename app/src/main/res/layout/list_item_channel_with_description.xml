@@ -20,12 +20,11 @@
             android:id="@+id/list_item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
+            android:fontFamily="sans-serif"
             android:maxLines="1"
             android:padding="4dp"
             android:singleLine="true"
-            android:text="@string/default_title"
-            android:textColor="?android:attr/textColorPrimaryInverse"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"/>
 
@@ -34,15 +33,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elegantTextHeight="false"
-            android:fontFamily="sans-serif-condensed"
+            android:fontFamily="sans-serif"
             android:linksClickable="false"
             android:maxLines="1"
             android:paddingBottom="4dp"
             android:paddingLeft="8dp"
             android:paddingRight="4dp"
             android:paddingTop="4dp"
-            android:text="@string/default_text"
-            android:textColor="?android:attr/textColorPrimaryInverse"
+            android:textColor="@color/black"
             android:textSize="12sp"/>
 
     </LinearLayout>

@@ -23,6 +23,8 @@ public class NewsAdapter extends CursorAdapter {
     public static final int VIEW_TYPE_WITH_IMAGE = 0;
     public static final int VIEW_TYPE_NO_IMAGE = 1;
     public static final int VIEW_TYPE_CHANNEL_WITH_DESCRIPTION = 2;
+    //public static final String SIMPLE_DATE_FORMAT = "yyyy-MM-dd HH:mm";
+    public static final String SIMPLE_DATE_FORMAT = "dd-M HH:mm";
 
     public NewsAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
@@ -98,7 +100,7 @@ public class NewsAdapter extends CursorAdapter {
                 description = cursor.getString(NewsFragment.COL_DESCRIPTION);
                 // Read date from cursor
                 long dateInMillis = cursor.getLong(NewsFragment.COL_PUB_DATE);
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(SIMPLE_DATE_FORMAT);
                 viewHolder.dateView.setText(simpleDateFormat.format(new Date(dateInMillis)));
                 break;
             case VIEW_TYPE_CHANNEL_WITH_DESCRIPTION:

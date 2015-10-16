@@ -23,7 +23,6 @@
             android:layout_weight="1"
             android:fontFamily="sans-serif-condensed"
             android:singleLine="true"
-            android:text="@string/default_title"
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
@@ -33,7 +32,6 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
             android:paddingLeft="4dp"
-            android:text="@string/default_date"
             android:textColor="@color/black"/>
 
     </LinearLayout>
@@ -42,11 +40,8 @@
         android:id="@+id/list_item_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLines="3"
         android:fontFamily="sans-serif-condensed"
-        android:linksClickable="false"
         android:paddingLeft="4dp"
-        android:text="@string/default_text"
         android:textColor="@color/black"
         android:textSize="12sp"/>
 </LinearLayout>

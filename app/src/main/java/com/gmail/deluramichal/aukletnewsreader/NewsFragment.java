@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.gmail.deluramichal.aukletnewsreader.data.NewsContract;
 
@@ -25,9 +24,8 @@ import com.gmail.deluramichal.aukletnewsreader.data.NewsContract;
 public class NewsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private final static String DEBUG_TAG = NewsFragment.class.getSimpleName() + " DEBUG: ";
-    private final static boolean USE_IMAGE = false; //TODO: Get from Settings or something
+    private final static boolean USE_IMAGE = true; //TODO: Get from Settings or something
     private static final String ACTIVE_ITEM = "active_item";
-    private static final int EXPANDED_DESCRIPTION_LINES = 6;
     private static final int NEWS_LOADER = 0;
     private static final String[] NEWS_COLUMNS = {
             NewsContract.ItemEntry._ID,
@@ -84,26 +82,15 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
                 // CursorAdapter returns a cursor at the correct position for getItem(), or null
                 // if it cannot seek to that position.
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
-                if (cursor != null) {
-                    //Find Description view
-                    TextView descriptionView =
-                            (TextView) view.findViewById(R.id.list_item_description);
-                    //Expand description on first click
-                    //Check if it's tagged with object - then was already clicked
-                    if (descriptionView.getTag() == null) {
-                        descriptionView.setMaxLines(EXPANDED_DESCRIPTION_LINES);
-                        descriptionView.setTag(new Object());
-                    } else { //Go to link
-                        String url = cursor.getString(COL_LINK);
-                        Uri webPage = Uri.parse(url);
-                        Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
-                        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-                            startActivity(intent);
-                        } else {
-                            Log.d(DEBUG_TAG, "Couldn't call " + webPage.toString() + ", no receiving apps " +
-                                    "installed!");
-                        }
-                    }
+
+                String url = cursor.getString(COL_LINK);
+                Uri webPage = Uri.parse(url);
+                Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
+                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivity(intent);
+                } else {
+                    Log.d(DEBUG_TAG, "Couldn't call " + webPage.toString() + ", no receiving apps " +
+                            "installed!");
                 }
             }
         });

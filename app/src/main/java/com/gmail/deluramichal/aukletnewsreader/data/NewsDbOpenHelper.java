@@ -3,7 +3,6 @@ package com.gmail.deluramichal.aukletnewsreader.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.gmail.deluramichal.aukletnewsreader.data.NewsContract.ChannelEntry;
 import com.gmail.deluramichal.aukletnewsreader.data.NewsContract.ItemEntry;
@@ -55,9 +54,6 @@ public class NewsDbOpenHelper extends SQLiteOpenHelper {
                 // Put new items only if there aren't already there
                 " UNIQUE (" + ItemEntry.COLUMN_LINK + ", " +
                 ItemEntry.COLUMN_CHANNEL_KEY + ") ON CONFLICT IGNORE);";
-
-        Log.d("xxxTag", SQL_CREATE_CHANNEL_TABLE);
-        Log.d("xxxTag", SQL_CREATE_ITEM_TABLE);
 
         db.execSQL(SQL_CREATE_CHANNEL_TABLE);
         db.execSQL(SQL_CREATE_ITEM_TABLE);
