@@ -12,7 +12,6 @@ import com.gmail.deluramichal.aukletnewsreader.R;
  * Created by Michal Delura on 2015-10-05.
  */
 class NewsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
-    //TODO: Check load in (?)NewsFragment
     private Context mContext;
     private int mAppWidgetId;
 
