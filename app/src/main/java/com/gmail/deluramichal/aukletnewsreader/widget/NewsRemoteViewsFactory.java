@@ -1,22 +1,30 @@
 package com.gmail.deluramichal.aukletnewsreader.widget;
 
 import android.appwidget.AppWidgetManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.gmail.deluramichal.aukletnewsreader.NewsFragment;
 import com.gmail.deluramichal.aukletnewsreader.R;
+import com.gmail.deluramichal.aukletnewsreader.data.NewsContract;
+import com.gmail.deluramichal.aukletnewsreader.data.NewsProvider;
 
 /**
  * Created by Michal Delura on 2015-10-05.
  */
-class NewsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
+public class NewsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private Context mContext;
+    private ContentResolver mContentResolver;
+    private Cursor mNewsCursor;
     private int mAppWidgetId;
 
     public NewsRemoteViewsFactory(Context context, Intent intent) {
         mContext = context;
+        mContentResolver = mContext.getContentResolver();
         mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
     }
@@ -26,24 +34,26 @@ class NewsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         // In onCreate() you setup any connections / cursors to your data source. Heavy lifting,
         // for example downloading or creating content etc, should be deferred to onDataSetChanged()
         // or getViewAt(). Taking more than 20 seconds in this call will result in an ANR.
-        //TODO: Setup cursor here
-
-
+        mNewsCursor = mContentResolver.query(
+                NewsContract.ItemEntry.CONTENT_URI,
+                NewsFragment.NEWS_COLUMNS,
+                null,
+                null,
+                NewsContract.ItemEntry.SORT_PUB_DATE_DESC);
     }
 
     @Override
     public void onDataSetChanged() {
-
     }
 
     @Override
     public void onDestroy() {
-
+        mNewsCursor.close();
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return mNewsCursor.getCount();
     }
 
     @Override
@@ -51,7 +61,12 @@ class NewsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         // Construct a remote views item based on the app widget item XML file,
         // and set the text based on the position.
         RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.list_item_no_image);
-        rv.setTextViewText(R.id.list_item_title, "xxx");
+        mNewsCursor.moveToPosition(position);
+        rv.setTextViewText(R.id.list_item_title, mNewsCursor.getString(NewsFragment.COL_TITLE));
+        rv.setTextViewText(R.id.list_item_date,
+                NewsProvider.dateFormat(mNewsCursor.getLong(NewsFragment.COL_PUB_DATE)));
+        rv.setTextViewText(R.id.list_item_description,
+                mNewsCursor.getString(NewsFragment.COL_DESCRIPTION));
 
         // Return the remote views object.
         return rv;
@@ -64,12 +79,12 @@ class NewsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public int getViewTypeCount() {
-        return 0;
+        return 1;
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override

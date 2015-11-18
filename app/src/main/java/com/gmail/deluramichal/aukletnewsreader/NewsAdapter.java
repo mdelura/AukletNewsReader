@@ -11,8 +11,7 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.gmail.deluramichal.aukletnewsreader.data.NewsProvider;
 
 /**
  * Created by Michal Delura on 2015-08-23.
@@ -99,9 +98,8 @@ public class NewsAdapter extends CursorAdapter {
                 title = cursor.getString(NewsFragment.COL_TITLE);
                 description = cursor.getString(NewsFragment.COL_DESCRIPTION);
                 // Read date from cursor
-                long dateInMillis = cursor.getLong(NewsFragment.COL_PUB_DATE);
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(SIMPLE_DATE_FORMAT);
-                viewHolder.dateView.setText(simpleDateFormat.format(new Date(dateInMillis)));
+                viewHolder.dateView.setText(
+                        NewsProvider.dateFormat(cursor.getLong(NewsFragment.COL_PUB_DATE)));
                 break;
             case VIEW_TYPE_CHANNEL_WITH_DESCRIPTION:
                 title = cursor.getString(SearchChannels.COL_TITLE);

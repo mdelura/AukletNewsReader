@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Michal Delura on 2015-07-28.
  */
@@ -24,6 +27,7 @@ public class NewsProvider extends ContentProvider{
     static final int CHANNEL = 100;
     static final int ITEM = 101;
     static final int ITEM_WITH_CHANNEL = 102;
+    static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     private static final SQLiteQueryBuilder sItemByChannelQueryBuilder;
     static{
@@ -234,5 +238,9 @@ public class NewsProvider extends ContentProvider{
                 }
                 getContext().getContentResolver().notifyChange(uri, null);
                 return returnCount;
+    }
+
+    public static String dateFormat(long dateInMillis) {
+        return SIMPLE_DATE_FORMAT.format(new Date(dateInMillis));
     }
 }

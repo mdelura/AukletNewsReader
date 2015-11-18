@@ -37,10 +37,6 @@ public class NewsWidgetProvider extends AppWidgetProvider {
             // object above.
             rv.setEmptyView(R.id.list_view, R.id.empty_view_appwidget);
 
-            //
-            //TODO:  Do additional processing specific to this app widget...
-            //
-
             appWidgetManager.updateAppWidget(appWidgetIds[i], rv);
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);

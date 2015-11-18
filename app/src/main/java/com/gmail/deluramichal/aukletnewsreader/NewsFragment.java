@@ -29,7 +29,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
     private static final String ACTIVE_ITEM = "active_item";
     private static final int EXPANDED_DESCRIPTION_LINES = 6;
     private static final int NEWS_LOADER = 0;
-    private static final String[] NEWS_COLUMNS = {
+    public static final String[] NEWS_COLUMNS = {
             NewsContract.ItemEntry._ID,
             NewsContract.ItemEntry.COLUMN_TITLE,
             NewsContract.ItemEntry.COLUMN_LINK,
@@ -42,19 +42,20 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
             NewsContract.ItemEntry.COLUMN_SYNC_DATE};
 
     //Indices for NEWS_COLUMNS
-    static final int COL_NEWS_ID = 0;
-    static final int COL_TITLE = 1;
-    static final int COL_LINK = 2;
-    static final int COL_CONTENT = 3;
-    static final int COL_DESCRIPTION = 4;
-    static final int COL_PUB_DATE = 5;
-    static final int COL_IMAGE_SRC = 6;
-    static final int COL_IMAGE = 7;
-    static final int COL_CHANNEL_KEY = 8;
-    static final int COL_SYNC_DATE = 9;
+    public static final int COL_NEWS_ID = 0;
+    public static final int COL_TITLE = 1;
+    public static final int COL_LINK = 2;
+    public static final int COL_CONTENT = 3;
+    public static final int COL_DESCRIPTION = 4;
+    public static final int COL_PUB_DATE = 5;
+    public static final int COL_IMAGE_SRC = 6;
+    public static final int COL_IMAGE = 7;
+    public static final int COL_CHANNEL_KEY = 8;
+    public static final int COL_SYNC_DATE = 9;
 
     private NewsAdapter mNewsAdapter;
     private int mPosition;
+
 
     public NewsFragment() {
     }
@@ -119,7 +120,6 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
         // Sort order:  Descending, by pub_date.
-        String sortOrder = NewsContract.ItemEntry.COLUMN_PUB_DATE + " DESC";
         Uri newsUri = NewsContract.ItemEntry.CONTENT_URI;
 
         return new CursorLoader(getActivity(),
@@ -127,7 +127,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
                 NEWS_COLUMNS,
                 null,
                 null,
-                sortOrder);
+                NewsContract.ItemEntry.SORT_PUB_DATE_DESC);
     }
 
 

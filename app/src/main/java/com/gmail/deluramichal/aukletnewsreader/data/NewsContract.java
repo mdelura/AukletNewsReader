@@ -70,6 +70,9 @@ public class NewsContract {
         public static final String COLUMN_CHANNEL_KEY = "channel_id";
         public static final String COLUMN_SYNC_DATE = "sync_date";
 
+        //Sort by PUB_DATE
+        public static final String SORT_PUB_DATE_DESC = COLUMN_PUB_DATE + " DESC";
+
         public static Uri buildItemUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
