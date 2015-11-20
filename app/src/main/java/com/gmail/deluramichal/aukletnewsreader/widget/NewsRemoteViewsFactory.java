@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -67,6 +68,17 @@ public class NewsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
                 NewsProvider.dateFormat(mNewsCursor.getLong(NewsFragment.COL_PUB_DATE)));
         rv.setTextViewText(R.id.list_item_description,
                 mNewsCursor.getString(NewsFragment.COL_DESCRIPTION));
+
+        // Next, set a fill-intent, which will be used to fill in the pending intent template
+        // that is set on the collection view in StackWidgetProvider.
+        Bundle extras = new Bundle();
+        extras.putString(NewsWidgetProvider.EXTRA_ITEM,
+                mNewsCursor.getString(NewsFragment.COL_LINK));
+        Intent fillInIntent = new Intent();
+        fillInIntent.putExtras(extras);
+        // Make it possible to distinguish the individual on-click
+        // action of a given item
+        rv.setOnClickFillInIntent(R.id.list_item, fillInIntent);
 
         // Return the remote views object.
         return rv;
