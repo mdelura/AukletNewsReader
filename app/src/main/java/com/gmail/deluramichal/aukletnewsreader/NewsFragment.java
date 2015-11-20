@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.gmail.deluramichal.aukletnewsreader.data.NewsContract;
 
@@ -27,7 +26,6 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
     private final static String DEBUG_TAG = NewsFragment.class.getSimpleName() + " DEBUG: ";
     private final static boolean USE_IMAGE = true; //TODO: Get from Settings or something
     private static final String ACTIVE_ITEM = "active_item";
-    private static final int EXPANDED_DESCRIPTION_LINES = 6;
     private static final int NEWS_LOADER = 0;
     public static final String[] NEWS_COLUMNS = {
             NewsContract.ItemEntry._ID,

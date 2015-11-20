@@ -3,22 +3,22 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/white">
-
+              android:layout_margin="4dp"
+              android:alpha="0.75"
+              android:background="@color/white"
+    >
     <ListView
         android:id="@+id/list_view_appwidget"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:choiceMode="singleChoice"
-        />
+        android:layout_height="match_parent"/>
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/empty_view_appwidget"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:gravity="center"
-              android:textColor="#ffffff"
+              android:textColor="@color/black"
               android:textStyle="bold"
               android:text="@string/no_data"
               android:textSize="20sp" />
