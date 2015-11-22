@@ -5,13 +5,15 @@
               android:layout_height="match_parent"
               android:layout_margin="4dp"
               android:alpha="0.75"
-              android:background="@color/white"
+              android:background="@drawable/layout_bg"
     >
     <ListView
         android:id="@+id/list_view_appwidget"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:divider="@color/grey"
+        android:dividerHeight="1px"/>
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/empty_view_appwidget"
