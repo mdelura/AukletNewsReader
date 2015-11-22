@@ -81,6 +81,8 @@ public class NewsWidgetProvider extends AppWidgetProvider {
 
 
             appWidgetManager.updateAppWidget(appWidgetIds[i], rv);
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds[i],
+                    R.id.list_view_appwidget);
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
 
