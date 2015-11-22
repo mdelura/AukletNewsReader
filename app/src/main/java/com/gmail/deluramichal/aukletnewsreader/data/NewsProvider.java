@@ -27,7 +27,7 @@ public class NewsProvider extends ContentProvider{
     static final int CHANNEL = 100;
     static final int ITEM = 101;
     static final int ITEM_WITH_CHANNEL = 102;
-    static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd-MMM HH:mm");
 
     private static final SQLiteQueryBuilder sItemByChannelQueryBuilder;
     static{
