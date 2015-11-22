@@ -16,7 +16,7 @@
         <provider
             android:name=".data.NewsProvider"
             android:authorities="com.gmail.deluramichal.aukletnewsreader"
-            android:exported="false"
+            android:exported="true"
             android:syncable="true" />
         <!-- SyncAdapter's dummy authentication service -->
         <service android:name=".sync.AukletAuthenticatorService" >

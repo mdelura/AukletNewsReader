@@ -38,17 +38,17 @@ public class NewsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
         // In onCreate() you setup any connections / cursors to your data source. Heavy lifting,
         // for example downloading or creating content etc, should be deferred to onDataSetChanged()
         // or getViewAt(). Taking more than 20 seconds in this call will result in an ANR.
+        Log.d(LOG_TAG, "onCreate called");
+    }
+
+    @Override
+    public void onDataSetChanged() {
         mNewsCursor = mContentResolver.query(
                 NewsContract.ItemEntry.CONTENT_URI,
                 NewsFragment.NEWS_COLUMNS,
                 null,
                 null,
                 NewsContract.ItemEntry.SORT_PUB_DATE_DESC);
-        Log.d(LOG_TAG, "onCreate called");
-    }
-
-    @Override
-    public void onDataSetChanged() {
         Log.d(LOG_TAG, "onDataSetChanged called");
     }
 
