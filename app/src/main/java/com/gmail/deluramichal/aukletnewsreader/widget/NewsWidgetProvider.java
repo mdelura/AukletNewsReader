@@ -60,7 +60,7 @@ public class NewsWidgetProvider extends AppWidgetProvider {
             // This adapter connects
             // to a RemoteViewsService  through the specified intent.
             // This is how you populate the data.
-            rv.setRemoteAdapter(R.id.list_view_appwidget, intent);
+            rv.setRemoteAdapter(appWidgetIds[i], R.id.list_view_appwidget, intent);
 
             // The empty view is displayed when the collection has no items.
             // It should be in the same layout used to instantiate the RemoteViews

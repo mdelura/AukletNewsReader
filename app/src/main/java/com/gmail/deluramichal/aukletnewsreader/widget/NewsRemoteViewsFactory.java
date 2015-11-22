@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -22,12 +23,14 @@ public class NewsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
     private ContentResolver mContentResolver;
     private Cursor mNewsCursor;
     private int mAppWidgetId;
+    private static final String LOG_TAG = NewsRemoteViewsFactory.class.getSimpleName();
 
     public NewsRemoteViewsFactory(Context context, Intent intent) {
         mContext = context;
         mContentResolver = mContext.getContentResolver();
         mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
+        Log.d(LOG_TAG, "Create Factory");
     }
 
     @Override
@@ -41,10 +44,12 @@ public class NewsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
                 null,
                 null,
                 NewsContract.ItemEntry.SORT_PUB_DATE_DESC);
+        Log.d(LOG_TAG, "onCreate called");
     }
 
     @Override
     public void onDataSetChanged() {
+        Log.d(LOG_TAG, "onDataSetChanged called");
     }
 
     @Override
