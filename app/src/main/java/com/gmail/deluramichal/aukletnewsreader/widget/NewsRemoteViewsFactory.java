@@ -10,10 +10,9 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import com.gmail.deluramichal.aukletnewsreader.NewsFragment;
 import com.gmail.deluramichal.aukletnewsreader.R;
+import com.gmail.deluramichal.aukletnewsreader.Utils;
 import com.gmail.deluramichal.aukletnewsreader.data.NewsContract;
-import com.gmail.deluramichal.aukletnewsreader.data.NewsProvider;
 
 /**
  * Created by Michal Delura on 2015-10-05.
@@ -45,7 +44,7 @@ public class NewsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
     public void onDataSetChanged() {
         mNewsCursor = mContentResolver.query(
                 NewsContract.ItemEntry.CONTENT_URI,
-                NewsFragment.NEWS_COLUMNS,
+                NewsContract.NEWS_COLUMNS,
                 null,
                 null,
                 NewsContract.ItemEntry.SORT_PUB_DATE_DESC);
@@ -68,17 +67,17 @@ public class NewsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
         // and set the text based on the position.
         RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.list_item_no_image);
         mNewsCursor.moveToPosition(position);
-        rv.setTextViewText(R.id.list_item_title, mNewsCursor.getString(NewsFragment.COL_TITLE));
+        rv.setTextViewText(R.id.list_item_title, mNewsCursor.getString(NewsContract.COL_TITLE));
         rv.setTextViewText(R.id.list_item_date,
-                NewsProvider.dateFormat(mNewsCursor.getLong(NewsFragment.COL_PUB_DATE)));
+                Utils.dateFormat(mNewsCursor.getLong(NewsContract.COL_PUB_DATE)));
         rv.setTextViewText(R.id.list_item_description,
-                mNewsCursor.getString(NewsFragment.COL_DESCRIPTION));
+                mNewsCursor.getString(NewsContract.COL_DESCRIPTION));
 
         // Next, set a fill-intent, which will be used to fill in the pending intent template
         // that is set on the collection view in StackWidgetProvider.
         Bundle extras = new Bundle();
         extras.putString(NewsWidgetProvider.EXTRA_ITEM,
-                mNewsCursor.getString(NewsFragment.COL_LINK));
+                mNewsCursor.getString(NewsContract.COL_LINK));
         Intent fillInIntent = new Intent();
         fillInIntent.putExtras(extras);
         // Make it possible to distinguish the individual on-click

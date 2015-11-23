@@ -11,7 +11,7 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.gmail.deluramichal.aukletnewsreader.data.NewsProvider;
+import com.gmail.deluramichal.aukletnewsreader.data.NewsContract;
 
 /**
  * Created by Michal Delura on 2015-08-23.
@@ -22,8 +22,6 @@ public class NewsAdapter extends CursorAdapter {
     public static final int VIEW_TYPE_WITH_IMAGE = 0;
     public static final int VIEW_TYPE_NO_IMAGE = 1;
     public static final int VIEW_TYPE_CHANNEL_WITH_DESCRIPTION = 2;
-    //public static final String SIMPLE_DATE_FORMAT = "yyyy-MM-dd HH:mm";
-    public static final String SIMPLE_DATE_FORMAT = "dd-M HH:mm";
 
     public NewsAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
@@ -86,8 +84,8 @@ public class NewsAdapter extends CursorAdapter {
         int viewType = getItemViewType(cursor.getPosition());
         switch (viewType) {
             case VIEW_TYPE_WITH_IMAGE:
-                if (cursor.getBlob(NewsFragment.COL_IMAGE) != null) {
-                    byte[] imageBytes = cursor.getBlob(NewsFragment.COL_IMAGE);
+                if (cursor.getBlob(NewsContract.COL_IMAGE) != null) {
+                    byte[] imageBytes = cursor.getBlob(NewsContract.COL_IMAGE);
                     Bitmap bitmapFromBytes =
                             BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
                     viewHolder.thumbnailView.setImageBitmap(bitmapFromBytes);
@@ -95,11 +93,11 @@ public class NewsAdapter extends CursorAdapter {
                 //No break here as rest of the code is the same for these view types
             case VIEW_TYPE_NO_IMAGE:
                 //Set itemId, title, description, link
-                title = cursor.getString(NewsFragment.COL_TITLE);
-                description = cursor.getString(NewsFragment.COL_DESCRIPTION);
+                title = cursor.getString(NewsContract.COL_TITLE);
+                description = cursor.getString(NewsContract.COL_DESCRIPTION);
                 // Read date from cursor
                 viewHolder.dateView.setText(
-                        NewsProvider.dateFormat(cursor.getLong(NewsFragment.COL_PUB_DATE)));
+                        Utils.dateFormat(cursor.getLong(NewsContract.COL_PUB_DATE)));
                 break;
             case VIEW_TYPE_CHANNEL_WITH_DESCRIPTION:
                 title = cursor.getString(SearchChannels.COL_TITLE);

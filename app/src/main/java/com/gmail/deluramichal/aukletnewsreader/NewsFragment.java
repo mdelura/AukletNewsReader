@@ -27,29 +27,6 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
     private final static boolean USE_IMAGE = true; //TODO: Get from Settings or something
     private static final String ACTIVE_ITEM = "active_item";
     private static final int NEWS_LOADER = 0;
-    public static final String[] NEWS_COLUMNS = {
-            NewsContract.ItemEntry._ID,
-            NewsContract.ItemEntry.COLUMN_TITLE,
-            NewsContract.ItemEntry.COLUMN_LINK,
-            NewsContract.ItemEntry.COLUMN_CONTENT,
-            NewsContract.ItemEntry.COLUMN_DESCRIPTION,
-            NewsContract.ItemEntry.COLUMN_PUB_DATE,
-            NewsContract.ItemEntry.COLUMN_IMAGE_SRC,
-            NewsContract.ItemEntry.COLUMN_IMAGE,
-            NewsContract.ItemEntry.COLUMN_CHANNEL_KEY,
-            NewsContract.ItemEntry.COLUMN_SYNC_DATE};
-
-    //Indices for NEWS_COLUMNS
-    public static final int COL_NEWS_ID = 0;
-    public static final int COL_TITLE = 1;
-    public static final int COL_LINK = 2;
-    public static final int COL_CONTENT = 3;
-    public static final int COL_DESCRIPTION = 4;
-    public static final int COL_PUB_DATE = 5;
-    public static final int COL_IMAGE_SRC = 6;
-    public static final int COL_IMAGE = 7;
-    public static final int COL_CHANNEL_KEY = 8;
-    public static final int COL_SYNC_DATE = 9;
 
     private NewsAdapter mNewsAdapter;
     private int mPosition;
@@ -84,7 +61,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
                 // if it cannot seek to that position.
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
 
-                String url = cursor.getString(COL_LINK);
+                String url = cursor.getString(NewsContract.COL_LINK);
                 Uri webPage = Uri.parse(url);
                 Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
                 if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
@@ -122,7 +99,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
         return new CursorLoader(getActivity(),
                 newsUri,
-                NEWS_COLUMNS,
+                NewsContract.NEWS_COLUMNS,
                 null,
                 null,
                 NewsContract.ItemEntry.SORT_PUB_DATE_DESC);
