@@ -7,6 +7,7 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.database.Cursor;
@@ -41,6 +42,8 @@ import nl.matshofman.saxrssreader.RssReader;
  */
 public class AukletSyncAdapter extends AbstractThreadedSyncAdapter {
 
+    public static final String SYNC_COMPLETED =
+            "com.gmail.deluramichal.aukletnewsreader.AukletSyncAdapter.SYNC_COMPLETED";
     private static final int BYTE_CHUNK_SIZE = 4096;
     private ContentResolver mContentResolver;
 
@@ -88,6 +91,11 @@ public class AukletSyncAdapter extends AbstractThreadedSyncAdapter {
                         channelCursor.getString(COL_CHANNEL_SOURCE_URL));
             }
         channelCursor.close();
+        Intent syncCompletedIntent = new Intent();
+        Log.d(LOG_TAG, "Sending broadcast SYNC_COMPLETED.");
+        syncCompletedIntent.setAction(SYNC_COMPLETED);
+        getContext().sendBroadcast(syncCompletedIntent);
+        Log.d(LOG_TAG, "Broadcast SYNC_COMPLETED sent.");
     }
 
     private void getRssFeed(int channelId, String channelSourceUrl) {
@@ -164,7 +172,7 @@ public class AukletSyncAdapter extends AbstractThreadedSyncAdapter {
                     NewsContract.ItemEntry.CONTENT_URI,
                     NewsContract.ItemEntry.COLUMN_PUB_DATE + "< ?",
                     new String[]
-                            {Long.toString(dayTime-DAYS_DATA_STORED)});
+                            {Long.toString(dayTime - DAYS_DATA_STORED)});
         }
 
         Log.d(LOG_TAG, "Fetch RSS feed " + channelSourceUrl + " complete. " + inserted + " Inserted");

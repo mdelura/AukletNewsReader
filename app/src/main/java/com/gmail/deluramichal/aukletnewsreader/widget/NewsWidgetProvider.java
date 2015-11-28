@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.gmail.deluramichal.aukletnewsreader.R;
+import com.gmail.deluramichal.aukletnewsreader.sync.AukletSyncAdapter;
 
 /**
  * Created by Michal Delura on 2015-10-04.
@@ -21,7 +22,6 @@ public class NewsWidgetProvider extends AppWidgetProvider {
     public static final String EXTRA_ITEM = "com.gmail.deluramichal.aukletnewsreader.EXTRA_ITEM";
 
     // Called when the BroadcastReceiver receives an Intent broadcast.
-    // Checks to see whether the intent's action is NEWS_ITEM_ACTION.
     @Override
     public void onReceive(Context context, Intent intent) {
         AppWidgetManager mgr = AppWidgetManager.getInstance(context);
@@ -39,6 +39,9 @@ public class NewsWidgetProvider extends AppWidgetProvider {
                         "Couldn't call " + webPage.toString() + ", " + "no receiving apps " +
                         "installed!");
             }
+        } else if (intent.getAction().equals(AukletSyncAdapter.SYNC_COMPLETED)) {
+            Log.d(NewsWidgetProvider.class.getSimpleName(), "SYNC_COMPLETED broadcast received");
+            //TODO: Working. Probably implement update here...
         }
         super.onReceive(context, intent);
     }

@@ -43,6 +43,8 @@
         <receiver android:name=".widget.NewsWidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name=
+                            "com.gmail.deluramichal.aukletnewsreader.AukletSyncAdapter.SYNC_COMPLETED"/>
             </intent-filter>
             <meta-data android:name="android.appwidget.provider"
                        android:resource="@xml/news_appwidget_info" />
