@@ -61,7 +61,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SearchChannels"
+            android:name=".ChannelsActivity"
             android:theme="@style/DefaultTheme">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />

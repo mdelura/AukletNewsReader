@@ -1,8 +1,10 @@
 package com.gmail.deluramichal.aukletnewsreader;
 
 import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
@@ -15,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.gmail.deluramichal.aukletnewsreader.data.NewsContract;
@@ -30,34 +33,16 @@ import java.util.Vector;
 import nl.matshofman.saxrssreader.RssFeed;
 import nl.matshofman.saxrssreader.RssReader;
 
-public class SearchChannels extends AppCompatActivity {
+public class ChannelsActivity extends AppCompatActivity {
 
     private NewsAdapter mAdapter;
     private ListView mListView;
     private ContentResolver mContentResolver;
 
-    String LOG_TAG = SearchChannels.class.getSimpleName();
-    private static final String[] CHANNEL_COLUMNS = {
-            NewsContract.ChannelEntry._ID,
-            NewsContract.ChannelEntry.COLUMN_TITLE,
-            NewsContract.ChannelEntry.COLUMN_LINK,
-            NewsContract.ChannelEntry.COLUMN_DESCRIPTION,
-            NewsContract.ChannelEntry.COLUMN_SOURCE_URL,
-            NewsContract.ChannelEntry.COLUMN_LANGUAGE,
-    //        NewsContract.ChannelEntry.COLUMN_CATEGORY
-    };
-
-    //Indices for NEWS_COLUMNS
-    static final int COL_CHANNEL_ID = 0;
-    static final int COL_TITLE = 1;
-    static final int COL_LINK = 2;
-    static final int COL_DESCRIPTION = 3;
-    static final int COL_SOURCE_URL = 4;
-    static final int COL_LANGUAGE = 5;
-    //static final int COL_CATEGORY = 6;
+    String LOG_TAG = ChannelsActivity.class.getSimpleName();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {//TODO: Implement Fragment
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_channels);
         mContentResolver = getApplicationContext().getContentResolver();
@@ -116,7 +101,16 @@ public class SearchChannels extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_select_channels, menu);
+        getMenuInflater().inflate(R.menu.menu_channels, menu);
+
+        // Get the SearchView and set the searchable configuration
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this,
+                ChannelsActivity.class)));
+        searchView.setIconifiedByDefault(false);
+        //searchView.requestFocus();//TODO: how to show keyboard? This is not enough, only cursor
+
         return true;
     }
 
@@ -131,7 +125,7 @@ public class SearchChannels extends AppCompatActivity {
         switch (id) {
             case R.id.action_settings:
                 return true;
-            case R.id.action_select_channels:
+            case R.id.action_add_channels:
                 addSelectedChannels();
                 finish();
 //                Intent newsIntent = new Intent(getApplicationContext(), MainActivity.class);
@@ -155,19 +149,19 @@ public class SearchChannels extends AppCompatActivity {
                 if (checkedItemPositions.get(checkedItemsCursor.getPosition(), false)) {
                     ContentValues channelValues = new ContentValues();
                     channelValues.put(NewsContract.ChannelEntry.COLUMN_TITLE,
-                            checkedItemsCursor.getString(COL_TITLE));
+                            checkedItemsCursor.getString(NewsContract.ChannelEntry.COL_TITLE));
                     channelValues.put(NewsContract.ChannelEntry.COLUMN_LINK,
-                            checkedItemsCursor.getString(COL_LINK));
+                            checkedItemsCursor.getString(NewsContract.ChannelEntry.COL_LINK));
                     channelValues.put(NewsContract.ChannelEntry.COLUMN_DESCRIPTION,
-                            checkedItemsCursor.getString(COL_DESCRIPTION));
+                            checkedItemsCursor.getString(NewsContract.ChannelEntry.COL_DESCRIPTION));
                     channelValues.put(NewsContract.ChannelEntry.COLUMN_SOURCE_URL,
-                            checkedItemsCursor.getString(COL_SOURCE_URL));
+                            checkedItemsCursor.getString(NewsContract.ChannelEntry.COL_SOURCE_URL));
                     channelValues.put(NewsContract.ChannelEntry.COLUMN_LANGUAGE,
-                            checkedItemsCursor.getString(COL_LANGUAGE));
+                            checkedItemsCursor.getString(NewsContract.ChannelEntry.COL_LANGUAGE));
                     //channelValues.put(NewsContract.ChannelEntry.COLUMN_CATEGORY,
                     //        checkedItemsCursor.getString(COL_CATEGORY));
                     Log.d(LOG_TAG, "Add Channel: " + checkedItemsCursor.getString
-                            (COL_TITLE));
+                            (NewsContract.ChannelEntry.COL_TITLE));
                     cVVector.add(channelValues);
                 }
                 checkedItemsCursor.moveToNext();
@@ -187,7 +181,7 @@ public class SearchChannels extends AppCompatActivity {
         @Override
         protected Cursor doInBackground(String[] params) {
 
-            MatrixCursor cursor = new MatrixCursor(CHANNEL_COLUMNS);
+            MatrixCursor cursor = new MatrixCursor(NewsContract.ChannelEntry.CHANNEL_COLUMNS);
 
             for (String channelUrl : params) {
 

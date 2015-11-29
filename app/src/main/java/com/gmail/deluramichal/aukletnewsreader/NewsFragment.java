@@ -61,7 +61,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
                 // if it cannot seek to that position.
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
 
-                String url = cursor.getString(NewsContract.COL_LINK);
+                String url = cursor.getString(NewsContract.ItemEntry.COL_LINK);
                 Uri webPage = Uri.parse(url);
                 Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
                 if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
@@ -99,7 +99,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
         return new CursorLoader(getActivity(),
                 newsUri,
-                NewsContract.NEWS_COLUMNS,
+                NewsContract.ItemEntry.NEWS_COLUMNS,
                 null,
                 null,
                 NewsContract.ItemEntry.SORT_PUB_DATE_DESC);

@@ -20,8 +20,9 @@
     <string name="search_hint">Search for channels&#8230;</string>
     <string name="noConnection">No network connection available</string>
     <string name="noChannels">No channels found</string>
-    <string name="selectChannels">Select Channels</string>
+    <string name="action_channels">Channels</string>
     <string name="no_data">No news to show.</string>
+    <string name="add_channels">Add channels</string>
 
 
 </resources>
