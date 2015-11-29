@@ -2,18 +2,19 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/blue_500</item>
+        <item name="colorPrimaryDark">@color/blue_800</item>
     </style>
 
     <style name="DefaultTheme" parent="AppTheme">
         <item name="actionBarStyle">@style/ActionBar.Solid.Auklet.Default</item>
     </style>
 
-<style name="ActionBar.Solid.Auklet.Default"
-       parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-<item name="displayOptions">useLogo|showHome</item>
-<item name="logo">@drawable/auklet_icon</item>
-</style>
+    <style name="ActionBar.Solid.Auklet.Default"
+           parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="displayOptions">useLogo|showHome</item>
+        <item name="logo">@drawable/auklet_icon</item>
+    </style>
 
 
-    </resources>
+</resources>
