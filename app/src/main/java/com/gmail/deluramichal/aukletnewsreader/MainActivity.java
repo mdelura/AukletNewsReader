@@ -1,8 +1,7 @@
 package com.gmail.deluramichal.aukletnewsreader;
 
-import android.app.SearchManager;
-import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.SearchView;
 
 import com.gmail.deluramichal.aukletnewsreader.sync.AukletSyncAdapter;
 
@@ -38,15 +36,6 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
 
-
-        // Get the SearchView and set the searchable configuration
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this,
-                SearchChannels.class)));
-        searchView.setIconifiedByDefault(false);
-        //searchView.requestFocus();//TODO: how to show keyboard?
-
         return true;
     }
 
@@ -60,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.action_channels) {
+            Intent channelsIntent = new Intent(this, ChannelsActivity.class);
+            startActivity(channelsIntent);
         }
 
         return super.onOptionsItemSelected(item);

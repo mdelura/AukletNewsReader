@@ -44,7 +44,7 @@ public class NewsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
     public void onDataSetChanged() {
         mNewsCursor = mContentResolver.query(
                 NewsContract.ItemEntry.CONTENT_URI,
-                NewsContract.NEWS_COLUMNS,
+                NewsContract.ItemEntry.NEWS_COLUMNS,
                 null,
                 null,
                 NewsContract.ItemEntry.SORT_PUB_DATE_DESC);
@@ -67,17 +67,17 @@ public class NewsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
         // and set the text based on the position.
         RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.list_item_no_image);
         mNewsCursor.moveToPosition(position);
-        rv.setTextViewText(R.id.list_item_title, mNewsCursor.getString(NewsContract.COL_TITLE));
+        rv.setTextViewText(R.id.list_item_title, mNewsCursor.getString(NewsContract.ItemEntry.COL_TITLE));
         rv.setTextViewText(R.id.list_item_date,
-                Utils.dateFormat(mNewsCursor.getLong(NewsContract.COL_PUB_DATE)));
+                Utils.dateFormat(mNewsCursor.getLong(NewsContract.ItemEntry.COL_PUB_DATE)));
         rv.setTextViewText(R.id.list_item_description,
-                mNewsCursor.getString(NewsContract.COL_DESCRIPTION));
+                mNewsCursor.getString(NewsContract.ItemEntry.COL_DESCRIPTION));
 
         // Next, set a fill-intent, which will be used to fill in the pending intent template
         // that is set on the collection view in StackWidgetProvider.
         Bundle extras = new Bundle();
         extras.putString(NewsWidgetProvider.EXTRA_ITEM,
-                mNewsCursor.getString(NewsContract.COL_LINK));
+                mNewsCursor.getString(NewsContract.ItemEntry.COL_LINK));
         Intent fillInIntent = new Intent();
         fillInIntent.putExtras(extras);
         // Make it possible to distinguish the individual on-click

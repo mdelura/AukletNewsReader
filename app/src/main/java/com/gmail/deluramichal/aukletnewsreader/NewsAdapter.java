@@ -84,8 +84,8 @@ public class NewsAdapter extends CursorAdapter {
         int viewType = getItemViewType(cursor.getPosition());
         switch (viewType) {
             case VIEW_TYPE_WITH_IMAGE:
-                if (cursor.getBlob(NewsContract.COL_IMAGE) != null) {
-                    byte[] imageBytes = cursor.getBlob(NewsContract.COL_IMAGE);
+                if (cursor.getBlob(NewsContract.ItemEntry.COL_IMAGE) != null) {
+                    byte[] imageBytes = cursor.getBlob(NewsContract.ItemEntry.COL_IMAGE);
                     Bitmap bitmapFromBytes =
                             BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
                     viewHolder.thumbnailView.setImageBitmap(bitmapFromBytes);
@@ -93,15 +93,15 @@ public class NewsAdapter extends CursorAdapter {
                 //No break here as rest of the code is the same for these view types
             case VIEW_TYPE_NO_IMAGE:
                 //Set itemId, title, description, link
-                title = cursor.getString(NewsContract.COL_TITLE);
-                description = cursor.getString(NewsContract.COL_DESCRIPTION);
+                title = cursor.getString(NewsContract.ItemEntry.COL_TITLE);
+                description = cursor.getString(NewsContract.ItemEntry.COL_DESCRIPTION);
                 // Read date from cursor
                 viewHolder.dateView.setText(
-                        Utils.dateFormat(cursor.getLong(NewsContract.COL_PUB_DATE)));
+                        Utils.dateFormat(cursor.getLong(NewsContract.ItemEntry.COL_PUB_DATE)));
                 break;
             case VIEW_TYPE_CHANNEL_WITH_DESCRIPTION:
-                title = cursor.getString(SearchChannels.COL_TITLE);
-                description = cursor.getString(SearchChannels.COL_DESCRIPTION);
+                title = cursor.getString(NewsContract.ChannelEntry.COL_TITLE);
+                description = cursor.getString(NewsContract.ChannelEntry.COL_DESCRIPTION);
                 break;
         }
 
