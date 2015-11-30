@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-condensed"
-                android:singleLine="true"
+                android:maxLines="2"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
 
