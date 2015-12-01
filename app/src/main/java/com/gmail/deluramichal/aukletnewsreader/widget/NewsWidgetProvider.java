@@ -3,6 +3,7 @@ package com.gmail.deluramichal.aukletnewsreader.widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -24,7 +25,7 @@ public class NewsWidgetProvider extends AppWidgetProvider {
     // Called when the BroadcastReceiver receives an Intent broadcast.
     @Override
     public void onReceive(Context context, Intent intent) {
-        AppWidgetManager mgr = AppWidgetManager.getInstance(context);
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         if (intent.getAction().equals(NEWS_ITEM_ACTION)) {
             int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                     AppWidgetManager.INVALID_APPWIDGET_ID);
@@ -41,7 +42,11 @@ public class NewsWidgetProvider extends AppWidgetProvider {
             }
         } else if (intent.getAction().equals(AukletSyncAdapter.SYNC_COMPLETED)) {
             Log.d(NewsWidgetProvider.class.getSimpleName(), "SYNC_COMPLETED broadcast received");
-            //TODO: Working. Probably implement update here...
+            //Update widget if SYNC_COMPLETED broadcast is received
+            ComponentName thisAppWidget = new ComponentName(context.getPackageName(),
+                    NewsWidgetProvider.class.getName());
+            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisAppWidget);
+            onUpdate(context, appWidgetManager, appWidgetIds);
         }
         super.onReceive(context, intent);
     }
