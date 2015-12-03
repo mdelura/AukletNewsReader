@@ -124,6 +124,7 @@ public class ChannelsActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         switch (id) {
             case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             case R.id.action_add_channels:
                 addSelectedChannels();

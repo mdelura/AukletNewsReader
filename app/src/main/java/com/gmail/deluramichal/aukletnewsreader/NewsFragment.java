@@ -24,7 +24,6 @@ import com.gmail.deluramichal.aukletnewsreader.data.NewsContract;
 public class NewsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private final static String DEBUG_TAG = NewsFragment.class.getSimpleName() + " DEBUG: ";
-    private final static boolean USE_IMAGE = true; //TODO: Get from Settings or something
     private static final String ACTIVE_ITEM = "active_item";
     private static final int NEWS_LOADER = 0;
 
@@ -42,7 +41,8 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
         //Initialize CursorAdapter
         mNewsAdapter = new NewsAdapter(getActivity(), null, 0);
-        if (USE_IMAGE) {
+        boolean useImage = Utils.getPreferenceShowNewsImage(getActivity().getApplicationContext());
+        if (useImage) {
             mNewsAdapter.setViewType(NewsAdapter.VIEW_TYPE_WITH_IMAGE);
         }else
             mNewsAdapter.setViewType(NewsAdapter.VIEW_TYPE_NO_IMAGE);

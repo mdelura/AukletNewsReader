@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
         } else if (id == R.id.action_channels) {
             Intent channelsIntent = new Intent(this, ChannelsActivity.class);

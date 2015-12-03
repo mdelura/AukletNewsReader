@@ -8,11 +8,13 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.gmail.deluramichal.aukletnewsreader.R;
@@ -44,19 +46,17 @@ public class AukletSyncAdapter extends AbstractThreadedSyncAdapter {
 
     public static final String SYNC_COMPLETED =
             "com.gmail.deluramichal.aukletnewsreader.AukletSyncAdapter.SYNC_COMPLETED";
+    private static final int SYNC_FLEXTIME_DENOMINATOR = 5;
     private static final int BYTE_CHUNK_SIZE = 4096;
     private ContentResolver mContentResolver;
+    private Context mContext;
+    private static SharedPreferences SHARED_PREFERENCES;
 
     public final String LOG_TAG = AukletSyncAdapter.class.getSimpleName();
-    // Interval at which to sync with the weather, in SECONDS
-    // 60 seconds (1 minute) * 60 minutes * x  = x hours
-    public static final int SYNC_INTERVAL = 60 * 60 * 1;//TODO: Get from Settings
-    public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
     private static final String NEWS_MIME_TYPE = "text/html; charset=utf-8";
     private static final String IMAGE_ELEMENT_TAG = "img";
     private static final String IMAGE_SOURCE_ATTRIBUTE = "src";
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
-    private static final long DAYS_DATA_STORED = DAY_IN_MILLIS * 3;//TODO: Get from Settings
     private static final int YEAR_2000 = 2000;
 
     private static final String[] CHANNEL_SOURCES = {
@@ -70,6 +70,8 @@ public class AukletSyncAdapter extends AbstractThreadedSyncAdapter {
     public AukletSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
         mContentResolver = context.getContentResolver();
+        mContext = context;
+        SHARED_PREFERENCES = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     @Override
@@ -168,11 +170,17 @@ public class AukletSyncAdapter extends AbstractThreadedSyncAdapter {
             inserted = mContentResolver.bulkInsert(NewsContract.ItemEntry.CONTENT_URI, cvArray);
 
             //Delete old news //TODO: Check
+//            Long daysDataStoredInMillis = Long.getLong(SHARED_PREFERENCES.getString(
+//                    mContext.getString(R.string.pref_days_news_stored_key),
+//                    mContext.getString(R.string.pref_days_news_stored_default))) * DAY_IN_MILLIS;
+//            Log.d(LOG_TAG,
+//                    "Deleting news older than " + daysDataStoredInMillis.toString() + "days.");
             mContentResolver.delete(
                     NewsContract.ItemEntry.CONTENT_URI,
                     NewsContract.ItemEntry.COLUMN_PUB_DATE + "< ?",
                     new String[]
-                            {Long.toString(dayTime - DAYS_DATA_STORED)});
+                            {Long.toString(dayTime - 3*DAY_IN_MILLIS)});
+//                            {Long.toString(dayTime - daysDataStoredInMillis)});
         }
 
         Log.d(LOG_TAG, "Fetch RSS feed " + channelSourceUrl + " complete. " + inserted + " Inserted");
@@ -251,12 +259,21 @@ public class AukletSyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private static void onAccountCreated(Account newAccount, Context context) {
-        AukletSyncAdapter.configurePeriodicSync(context, SYNC_INTERVAL, SYNC_FLEXTIME);
+        int syncInterval = Integer.valueOf(SHARED_PREFERENCES.getString(
+                context.getString(R.string.pref_sync_interval_seconds_key),
+                context.getString(R.string.pref_sync_interval_seconds_default)));
+        AukletSyncAdapter.configurePeriodicSync(context, syncInterval);
         ContentResolver.setSyncAutomatically(newAccount, context.getString(R.string.content_authority), true);
         syncImmediately(context);
     }
 
-    public static void configurePeriodicSync(Context context, int syncInterval, int flexTime) {
+    public static void configurePeriodicSync(Context context, int syncInterval) {
+        //Sync interval is set in seconds
+        Log.d(AukletSyncAdapter.class.getSimpleName(),
+                "Configuring periodic sync to: " + syncInterval / 60 + " minutes. ");
+
+        int flexTime = syncInterval / SYNC_FLEXTIME_DENOMINATOR;
+
         Account account = getSyncAccount(context);
         String authority = context.getString(R.string.content_authority);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

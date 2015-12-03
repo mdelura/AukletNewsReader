@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
+         dismiss it. -->
+    <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
+    <!-- TODO: Keep data stored for ... days-->
+    <Preference
+        android:key="@string/pref_days_news_stored_key"
+        android:summary="@string/pref_days_news_stored_summary"
+        android:title="@string/pref_days_news_stored_title"
+        />
+
+    <CheckBoxPreference
+        android:defaultValue="@string/pref_show_news_image_default"
+        android:key="@string/pref_show_news_image_key"
+        android:title="@string/pref_show_news_image"/>
+
+    <ListPreference
+        android:defaultValue="@string/pref_sync_interval_seconds_default"
+        android:summary="@string/pref_sync_interval_seconds_summary"
+        android:entries="@array/pref_sync_interval_seconds_titles"
+        android:entryValues="@array/pref_sync_interval_seconds_values"
+        android:key="@string/pref_sync_interval_seconds_key"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_sync_interval_seconds_title"/>
+
+    <!-- This preference simply launches an intent when selected. Use this UI sparingly, per
+         design guidelines. -->
+    <Preference android:title="@string/pref_system_sync_settings_title">
+        <intent android:action="android.settings.SYNC_SETTINGS"/>
+    </Preference>
+</PreferenceScreen>
