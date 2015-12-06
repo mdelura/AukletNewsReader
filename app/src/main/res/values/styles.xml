@@ -13,7 +13,7 @@
     <style name="ActionBar.Solid.Auklet.Default"
            parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <item name="displayOptions">useLogo|showHome</item>
-        <item name="logo">@drawable/auklet_icon</item>
+        <item name="logo">@mipmap/ic_launcher</item>
     </style>
 
 
