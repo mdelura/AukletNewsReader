@@ -3,10 +3,13 @@
     <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
          dismiss it. -->
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
-    <!-- TODO: Keep data stored for ... days-->
-    <Preference
+    <ListPreference
         android:key="@string/pref_days_news_stored_key"
         android:summary="@string/pref_days_news_stored_summary"
+        android:entries="@array/pref_days_news_stored_titles"
+        android:entryValues="@array/pref_days_news_stored_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
         android:title="@string/pref_days_news_stored_title"
         />
 

@@ -66,12 +66,9 @@ public class SettingsActivity extends PreferenceActivity
         Log.d(SettingsActivity.class.getSimpleName(), "Preference changed: " + preference.getKey());
         Log.d(SettingsActivity.class.getSimpleName(), "Preference changed value: " + stringValue);
 
-        if (preference.getKey() == context.getString(R.string.pref_days_news_stored_key)) {
-            //TODO: Set AukletSyncAdapter value?
-        } else if (preference.getKey() == context.getString(R.string.pref_sync_interval_seconds_key)) {
+        if (preference.getKey() == context.getString(R.string.pref_sync_interval_seconds_key)) {
             AukletSyncAdapter.configurePeriodicSync(getApplicationContext(),
                     Integer.valueOf(value.toString()));
-            AukletSyncAdapter.syncImmediately(context);
         } else if (preference.getKey() == context.getString(R.string.pref_show_news_image_key)) {
             //TODO: Implement
         }
