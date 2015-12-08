@@ -259,9 +259,8 @@ public class AukletSyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private static void onAccountCreated(Account newAccount, Context context) {
-        int syncInterval = Integer.valueOf(SHARED_PREFERENCES.getString(
-                context.getString(R.string.pref_sync_interval_seconds_key),
-                context.getString(R.string.pref_sync_interval_seconds_default)));
+        int syncInterval = Integer.valueOf(
+                context.getString(R.string.pref_sync_interval_seconds_default));
         AukletSyncAdapter.configurePeriodicSync(context, syncInterval);
         ContentResolver.setSyncAutomatically(newAccount, context.getString(R.string.content_authority), true);
         syncImmediately(context);

@@ -57,16 +57,7 @@
     <string name="pref_show_news_image">Show news image</string>
     <string name="pref_show_news_image_key" translatable="false">showNewsImage</string>
     <string name="pref_show_news_image_default" translatable="false">true</string>
-    <string-array name="pref_days_news_stored_titles">
-        <item>1 day</item>
-        <item>2 days</item>
-        <item>3 days</item>
-    </string-array>
-    <string-array name="pref_days_news_stored_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
+
     <string name="pref_days_news_stored_key" translatable="false">daysNewsStored</string>
     <string name="pref_days_news_stored_default" translatable="false">3</string>
     <string name="pref_days_news_stored_title">Keep news for days</string>

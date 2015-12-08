@@ -37,8 +37,9 @@ public class SettingsActivity extends PreferenceActivity
 
         // For all preferences, attach an OnPreferenceChangeListener so the UI summary can be
         // updated when the preference changes.
-        bindPreferenceSummaryToValue(findPreference(
-                getString(R.string.pref_days_news_stored_key)));
+        findPreference(
+                getString(R.string.pref_days_news_stored_key)).setOnPreferenceChangeListener
+                (this);
         bindPreferenceSummaryToValue(findPreference(
                 getString(R.string.pref_sync_interval_seconds_key)));
         findPreference(
@@ -70,6 +71,7 @@ public class SettingsActivity extends PreferenceActivity
         if (preference.getKey() == context.getString(R.string.pref_sync_interval_seconds_key)) {
             AukletSyncAdapter.configurePeriodicSync(getApplicationContext(),
                     Integer.valueOf(value.toString()));
+        }
 
         if (preference instanceof ListPreference) {
             // For list preferences, look up the correct display value in
