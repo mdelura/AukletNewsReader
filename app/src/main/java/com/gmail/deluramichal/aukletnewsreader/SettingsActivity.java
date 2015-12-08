@@ -5,11 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.gmail.deluramichal.aukletnewsreader.sync.AukletSyncAdapter;
 
@@ -37,9 +37,12 @@ public class SettingsActivity extends PreferenceActivity
 
         // For all preferences, attach an OnPreferenceChangeListener so the UI summary can be
         // updated when the preference changes.
-        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_days_news_stored_key)));
-        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_sync_interval_seconds_key)));
-//        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_show_news_image_key)));
+        bindPreferenceSummaryToValue(findPreference(
+                getString(R.string.pref_days_news_stored_key)));
+        bindPreferenceSummaryToValue(findPreference(
+                getString(R.string.pref_sync_interval_seconds_key)));
+        findPreference(
+                getString(R.string.pref_show_news_image_key)).setOnPreferenceChangeListener(this);
     }
 
     /**
@@ -63,16 +66,10 @@ public class SettingsActivity extends PreferenceActivity
     public boolean onPreferenceChange(Preference preference, Object value) {
         Context context = getApplicationContext();
         String stringValue = value.toString();
-        Log.d(SettingsActivity.class.getSimpleName(), "Preference changed: " + preference.getKey());
-        Log.d(SettingsActivity.class.getSimpleName(), "Preference changed value: " + stringValue);
 
         if (preference.getKey() == context.getString(R.string.pref_sync_interval_seconds_key)) {
             AukletSyncAdapter.configurePeriodicSync(getApplicationContext(),
                     Integer.valueOf(value.toString()));
-        } else if (preference.getKey() == context.getString(R.string.pref_show_news_image_key)) {
-            //TODO: Implement
-        }
-
 
         if (preference instanceof ListPreference) {
             // For list preferences, look up the correct display value in
@@ -82,8 +79,9 @@ public class SettingsActivity extends PreferenceActivity
             if (prefIndex >= 0) {
                 preference.setSummary(listPreference.getEntries()[prefIndex]);
             }
-        } else {
-            // For other preferences, set the summary to the value's simple string representation.
+        } else if (!(preference instanceof CheckBoxPreference)){
+            // For other preferences not of CheckBox, set the summary to the value's simple string
+            // representation.
             preference.setSummary(stringValue);
         }
         return true;

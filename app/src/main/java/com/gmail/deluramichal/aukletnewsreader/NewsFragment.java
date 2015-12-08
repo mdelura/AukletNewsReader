@@ -29,31 +29,37 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
     private NewsAdapter mNewsAdapter;
     private int mPosition;
+    private boolean mUseImage;
+    private View mRootView;
+    private ListView mListView;
 
 
     public NewsFragment() {
     }
 
     @Override
+    public void onResume() {
+        if (mUseImage != Utils.getPreferenceShowNewsImage(getActivity().getApplicationContext())) {
+            setNewsAdapter();
+        }
+        super.onResume();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView =  inflater.inflate(R.layout.list_view, container, false);
+        mRootView =  inflater.inflate(R.layout.list_view, container, false);
 
         //Initialize CursorAdapter
         mNewsAdapter = new NewsAdapter(getActivity(), null, 0);
-        boolean useImage = Utils.getPreferenceShowNewsImage(getActivity().getApplicationContext());
-        if (useImage) {
-            mNewsAdapter.setViewType(NewsAdapter.VIEW_TYPE_WITH_IMAGE);
-        }else
-            mNewsAdapter.setViewType(NewsAdapter.VIEW_TYPE_NO_IMAGE);
         // Get a reference to the ListView, and attach this adapter to it.
-        final ListView listView = (ListView) rootView.findViewById(R.id.list_view);
-        listView.setAdapter(mNewsAdapter);
+        mListView = (ListView) mRootView.findViewById(R.id.list_view);
+        setNewsAdapter();
 
         if (null !=savedInstanceState && savedInstanceState.containsKey(ACTIVE_ITEM)) {
             mPosition = savedInstanceState.getInt(ACTIVE_ITEM);
         }
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -73,7 +79,16 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
             }
         });
 
-        return rootView;
+        return mRootView;
+    }
+
+    private void setNewsAdapter() {
+        mUseImage = Utils.getPreferenceShowNewsImage(getActivity().getApplicationContext());
+        if (mUseImage) {
+            mNewsAdapter.setViewType(NewsAdapter.VIEW_TYPE_WITH_IMAGE);
+        }else
+            mNewsAdapter.setViewType(NewsAdapter.VIEW_TYPE_NO_IMAGE);
+        mListView.setAdapter(mNewsAdapter);
     }
 
     @Override
