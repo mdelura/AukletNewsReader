@@ -127,6 +127,10 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
         ListView listView = (ListView) getActivity().findViewById(R.id.list_view);
         if (cursor.getCount() != 0) {
             getActivity().findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+        } else {
+            Intent channelsIntent = new Intent(getActivity().getApplicationContext(),
+                    ChannelsActivity.class);
+            startActivity(channelsIntent);
         }
         //TODO: Error Nullpointer exception
 //        if (mPosition != ListView.INVALID_POSITION) {

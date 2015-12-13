@@ -51,8 +51,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
         } else if (id == R.id.action_channels) {
-            Intent channelsIntent = new Intent(this, ChannelsActivity.class);
-            startActivity(channelsIntent);
+            startActivity(new Intent(this, ChannelsActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
