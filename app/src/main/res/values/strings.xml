@@ -63,5 +63,9 @@
     <string name="pref_days_news_stored_title">Keep news for days</string>
     <string name="pref_days_news_stored_summary">How many days news will be stored</string>
 
+    <string name="remove_channels">Remove channels</string>
+    <string name="no_channels_selected">You have no selected channels. Please search for
+        any topics or channels to add channels.</string>
+
 
 </resources>

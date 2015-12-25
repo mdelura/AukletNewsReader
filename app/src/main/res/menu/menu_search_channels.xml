@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".ChannelsActivity">
+    <item
+        android:id="@+id/action_add_channels"
+        android:icon="@drawable/ic_content_save"
+        android:title="@string/add_channels"
+        app:showAsAction="always"/>
+</menu>

@@ -39,6 +39,10 @@ public class NewsContract {
         public static final String COLUMN_LANGUAGE = "language";
         public static final String COLUMN_CATEGORY = "category";
 
+        //Sort by CHANNEL_TITLE
+        public static final String SORT_CHANNEL_TITLE_ASC = COLUMN_TITLE + " ASC";
+        public static final String SORT_CHANNEL_TITLE_DESC = COLUMN_TITLE + " DESC";
+
         public static final String[] CHANNEL_COLUMNS = {
                 _ID,
                 COLUMN_TITLE,

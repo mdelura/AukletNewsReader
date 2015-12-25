@@ -1,6 +1,8 @@
 package com.gmail.deluramichal.aukletnewsreader;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 
 import java.text.SimpleDateFormat;
@@ -20,5 +22,12 @@ public class Utils {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
                 context.getString(R.string.pref_show_news_image_key),
                 Boolean.parseBoolean(context.getString(R.string.pref_show_news_image_default)));
+    }
+
+    public static boolean isOnline(Context context) {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
     }
 }

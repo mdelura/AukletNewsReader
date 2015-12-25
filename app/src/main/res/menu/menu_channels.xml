@@ -10,11 +10,6 @@
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="collapseActionView|always"/>
     <item
-        android:id="@+id/action_add_channels"
-        android:icon="@drawable/ic_content_save"
-        android:title="@string/add_channels"
-        app:showAsAction="always"/>
-    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
