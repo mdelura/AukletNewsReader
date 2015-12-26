@@ -170,17 +170,17 @@ public class AukletSyncAdapter extends AbstractThreadedSyncAdapter {
             inserted = mContentResolver.bulkInsert(NewsContract.ItemEntry.CONTENT_URI, cvArray);
 
             //Delete old news
-            long daysDataStoredInMillis = Long.parseLong(SHARED_PREFERENCES.getString(
-                    mContext.getString(R.string.pref_days_news_stored_key),
+            long daysDataStored = (long) SHARED_PREFERENCES.getInt(
+                    mContext.getString(R.string.pref_days_news_stored_key), Integer.parseInt(
                     mContext.getString(R.string.pref_days_news_stored_default)));
             Log.d(LOG_TAG,
-                    "Deleting news older than " + String.valueOf(daysDataStoredInMillis) + " days" +
+                    "Deleting news older than " + String.valueOf(daysDataStored) + " days" +
                             ".");
             mContentResolver.delete(
                     NewsContract.ItemEntry.CONTENT_URI,
                     NewsContract.ItemEntry.COLUMN_PUB_DATE + "< ?",
                     new String[]
-                            {Long.toString(dayTime - daysDataStoredInMillis * DAY_IN_MILLIS)});
+                            {Long.toString(dayTime - daysDataStored * DAY_IN_MILLIS)});
         }
 
         Log.d(LOG_TAG, "Fetch RSS feed " + channelSourceUrl + " complete. " + inserted + " Inserted");
