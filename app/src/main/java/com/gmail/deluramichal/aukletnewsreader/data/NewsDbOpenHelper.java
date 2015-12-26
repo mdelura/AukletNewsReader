@@ -52,8 +52,7 @@ public class NewsDbOpenHelper extends SQLiteOpenHelper {
                 ChannelEntry.TABLE_NAME + " (" + ChannelEntry._ID + "), " +
 
                 // Put new items only if there aren't already there
-                " UNIQUE (" + ItemEntry.COLUMN_LINK + ", " +
-                ItemEntry.COLUMN_CHANNEL_KEY + ") ON CONFLICT IGNORE);";
+                " UNIQUE (" + ItemEntry.COLUMN_LINK + ") ON CONFLICT IGNORE);";
 
         db.execSQL(SQL_CREATE_CHANNEL_TABLE);
         db.execSQL(SQL_CREATE_ITEM_TABLE);
