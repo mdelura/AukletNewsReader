@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +24,8 @@ import com.gmail.deluramichal.aukletnewsreader.data.NewsContract;
  * Created by Michal Delura.
  */
 public class ChannelsFragment extends AukletFragment {
+
+    String LOG_TAG = ChannelsFragment.class.getSimpleName();
 
     public ChannelsFragment() {
         setHasOptionsMenu(true);
@@ -68,13 +72,35 @@ public class ChannelsFragment extends AukletFragment {
         switch (id) {
             case R.id.action_remove_channels:
                 removeSelectedChannels();
+                item.setVisible(false);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void removeSelectedChannels() {//TODO: Implement
+    private void removeSelectedChannels() {
+        //List of checked items (key=position, value = checked or not)
+        SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
+        //Get Cursor from Adapter
+        Cursor checkedItemsCursor = mNewsAdapter.getCursor();
 
+        checkedItemsCursor.moveToFirst();
+        while (!checkedItemsCursor.isAfterLast()) {
+            //...and delete channel from a database if position is checked.
+            if (checkedItemPositions.get(checkedItemsCursor.getPosition(), false)) {
+                Log.d(LOG_TAG, "Removing channel " +
+                        checkedItemsCursor.getInt(NewsContract.ChannelEntry.COL_CHANNEL_ID) +
+                        " " +
+                        checkedItemsCursor.getString(NewsContract.ChannelEntry.COL_TITLE));
+                mContentResolver.delete(
+                        NewsContract.ChannelEntry.CONTENT_URI,
+                        NewsContract.ChannelEntry._ID + "= ?",
+                        new String[]
+                                {String.valueOf(checkedItemsCursor.getInt(
+                                        NewsContract.ChannelEntry.COL_CHANNEL_ID))});
+            }
+            checkedItemsCursor.moveToNext();
+        }
     }
 
     @Override
