@@ -7,4 +7,9 @@
         android:icon="@drawable/ic_delete"
         android:title="@string/remove_channels"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_select_channels"
+        android:icon="@drawable/ic_dns_white_48dp"
+        android:title="@string/select_channels"
+        app:showAsAction="always"/>
 </menu>

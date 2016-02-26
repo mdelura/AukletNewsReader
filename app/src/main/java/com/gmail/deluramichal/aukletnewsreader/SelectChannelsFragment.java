@@ -1,9 +1,7 @@
 package com.gmail.deluramichal.aukletnewsreader;
 
 
-import android.app.SearchManager;
 import android.content.ContentValues;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.os.AsyncTask;
@@ -38,10 +36,10 @@ import nl.matshofman.saxrssreader.RssReader;
 /**
  * Created by Michal Delura.
  */
-public class SearchChannelsFragment extends AukletFragment {
+public class SelectChannelsFragment extends AukletFragment {
 
-    String LOG_TAG = SearchChannelsFragment.class.getSimpleName();
-    public SearchChannelsFragment() {
+    String LOG_TAG = SelectChannelsFragment.class.getSimpleName();
+    public SelectChannelsFragment() {
         setHasOptionsMenu(true);
     }
 
@@ -51,8 +49,7 @@ public class SearchChannelsFragment extends AukletFragment {
         super.onCreateView(inflater, container, savedInstanceState);
         mListView.setDrawSelectorOnTop(false);
         mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        String query = getActivity().getIntent().getStringExtra(SearchManager.QUERY);
-        handleIntent(getActivity().getIntent());
+        getChannelsList();
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -62,6 +59,12 @@ public class SearchChannelsFragment extends AukletFragment {
         });
 
         return mRootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getChannelsList();
     }
 
     @Override
@@ -89,50 +92,45 @@ public class SearchChannelsFragment extends AukletFragment {
             case R.id.action_add_channels:
                 addSelectedChannels();
                 getActivity().finish();
-                //TODO: Decide if needed or remove
-//                Intent addChannelsIntent = new Intent(
-//                        getActivity().getApplicationContext(), ChannelsActivity.class);
-//                startActivity(addChannelsIntent);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void handleIntent(Intent intent) {
-
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            //Static mockup channels to read channel info from
-            String[] channelUrls = {
-                    "http://www.tvn24.pl/najwazniejsze.xml",
-                    "http://www.tvn24.pl/wiadomosci-z-kraju,3.xml",
-                    "http://www.tvn24.pl/internet-hi-tech-media,40.xml",
-                    "http://www.tvn24.pl/wiadomosci-ze-swiata,2.xml",
-                    "http://www.tvn24.pl/biznes-gospodarka,6.xml",
-                    "http://www.tvn24.pl/kultura-styl,8.xml",
-                    "http://www.tvn24.pl/ciekawostki-michalki,5.xml",
-                    "http://www.tvn24.pl/warszawa,41.xml",
-                    "http://feeds.reuters.com/news/artsculture",
-                    "http://feeds.reuters.com/reuters/technologyNews",
-                    "http://feeds.reuters.com/Reuters/worldNews",
-                    "http://feeds.reuters.com/reuters/oddlyEnoughNews",
-                    "http://feeds.reuters.com/reuters/scienceNews",
-                    "http://www.filmweb.pl/feed/news/latest"
-            };
-
-            //FetchChannelsTask here - get RSS channel info
-            if (Utils.isOnline(getActivity().getApplicationContext())) {
-                new FetchChannelsTask().execute(channelUrls);
-            } else {
-                Toast.makeText(getActivity().getApplicationContext().getApplicationContext(),
-                        R.string.noConnection, Toast.LENGTH_SHORT).show();
-            }
+    private void getChannelsList() {
+        //Static mockup channels to read channel info from
+        String[] channelUrls = {
+                "http://www.tvn24.pl/najwazniejsze.xml",
+                "http://www.tvn24.pl/wiadomosci-z-kraju,3.xml",
+                "http://www.tvn24.pl/internet-hi-tech-media,40.xml",
+                "http://www.tvn24.pl/wiadomosci-ze-swiata,2.xml",
+                "http://www.tvn24.pl/biznes-gospodarka,6.xml",
+                "http://www.tvn24.pl/kultura-styl,8.xml",
+                "http://www.tvn24.pl/ciekawostki-michalki,5.xml",
+                "http://www.tvn24.pl/warszawa,41.xml",
+                "http://feeds.reuters.com/news/artsculture",
+                "http://feeds.reuters.com/reuters/technologyNews",
+                "http://feeds.reuters.com/Reuters/worldNews",
+                "http://feeds.reuters.com/reuters/oddlyEnoughNews",
+                "http://feeds.reuters.com/reuters/scienceNews",
+                "http://www.filmweb.pl/feed/news/latest",
+                "http://feeds.feedburner.com/Mobilecrunch",
+                "http://feeds.feedburner.com/crunchgear",
+                "http://feeds.gawker.com/gizmodo/full",
+                "http://rss.cnn.com/rss/edition_technology.rss",
+                "http://rss.cnn.com/rss/edition_space.rss"
+        };
+        //FetchChannelsTask here - get RSS channel info
+        if (Utils.isOnline(getActivity().getApplicationContext())) {
+            new FetchChannelsTask().execute(channelUrls);
+        } else {
+            Toast.makeText(getActivity().getApplicationContext().getApplicationContext(),
+                    R.string.noConnection, Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        //TODO: Search here?
         return null;
     }
 

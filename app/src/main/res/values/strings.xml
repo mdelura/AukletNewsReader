@@ -13,12 +13,7 @@
     <string name="default_date">31-Dec 23:59</string>
     <string name="sync_account_type" translatable="false">aukletnewsreader.gmail.com</string>
     <string name="content_authority" translatable="false">com.gmail.deluramichal.aukletnewsreader</string>
-    <string name="title_activity_search_channels">Search Channels</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="button_text">Search</string>
-    <string name="search_title">Search for channels</string>
-    <string name="search_hint">Enter any keyword for channels or type of news that you are
-        looking for.</string>
+    <string name="title_activity_select_channels">Select Channels</string>
     <string name="noConnection">No network connection available</string>
     <string name="noChannels">No channels found</string>
     <string name="action_channels">Channels</string>
@@ -64,8 +59,10 @@
     <string name="pref_days_news_stored_summary">How many days news will be stored</string>
 
     <string name="remove_channels">Remove channels</string>
-    <string name="no_channels_selected">You have no selected channels. Please search for
-        any topics or channels to add channels.</string>
+    <string name="no_channels_selected">You have no selected channels. Please select preferred
+        channels from the list.</string>
+    <string name="title_activity_channels">Active channels</string>
+    <string name="select_channels">Select channels</string>
 
 
 </resources>
