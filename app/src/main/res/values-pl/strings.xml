@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Auklet News Reader</string>
+    <string name="action_channels">Kanały</string>
+    <string name="action_settings">Ustawienia</string>
+    <string name="add_channels">Dodaj kanały</string>
+    <string name="content_authority" translatable="false"></string>
+    <string name="noChannels">Nie znaleziono kanałów.</string>
+    <string name="noConnection">Brak połączenia z Internetem.</string>
+    <string name="no_channels_selected">Nie wybrałeś żadnych kanałów, Proszę, wybierz kanały z listy.</string>
+    <string name="no_data">Brak wiadomości do wyświetlenia.</string>
+    <string name="pref_days_news_stored_summary">Ile dni mają być przechowywane wiadomości.</string>
+    <string name="pref_days_news_stored_title">Trzymaj wiadomości przez dni</string>
+    <string name="pref_show_news_image">Pokaż obrazek do wiadomości</string>
+    <string name="pref_sync_interval_seconds_summary">Częstotliwość synchronizacji kanałów</string>
+    <string name="pref_sync_interval_seconds_title">Częstotliwość synchronizacji</string>
+    <string name="pref_system_sync_settings_title">Ustawienia systemowe synchronizacji</string>
+    <string name="remove_channels">Usuń kanały</string>
+    <string name="select_channels">Wybierz kanały</string>
+    <string name="thumbnail_description">Obrazek wiadomości</string>
+    <string name="title_activity_channels">Aktywne kanały</string>
+    <string name="title_activity_select_channels">Wybierz Kanały</string>
+    <string name="title_activity_settings">Ustawienia</string>
+</resources>

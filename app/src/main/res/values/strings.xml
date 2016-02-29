@@ -4,13 +4,13 @@
     <string name="thumbnail_description">News image</string>
 
     <!--Mockups' strings-->
-    <string name="default_title">Default title try to override text length by putting too
-        much text in the title of this news. Let\'s hope it\'s ok.</string>
-    <string name="default_text">This is a sample text.  Try to override text length by putting too
+    <string name="default_title" translatable="false">Default title try to override text length
+        by putting too much text in the title of this news. Let\'s hope it\'s ok.</string>
+    <string name="default_text" translatable="false">This is a sample text.  Try to override text length by putting too
         much text of this news. Let\'s hope it\'s ok and it\'s long enough to test it. I
         shall see how does it work. How much more characters will fit? Is it not enough
         already?</string>
-    <string name="default_date">31-Dec 23:59</string>
+    <string name="default_date" translatable="false">31-Dec 23:59</string>
     <string name="sync_account_type" translatable="false">aukletnewsreader.gmail.com</string>
     <string name="content_authority" translatable="false">com.gmail.deluramichal.aukletnewsreader</string>
     <string name="title_activity_select_channels">Select Channels</string>
