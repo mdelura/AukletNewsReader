@@ -11,7 +11,7 @@ public class SelectChannelsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_channels);
+        setContentView(R.layout.activity_select_channels);
     }
 
     @Override
