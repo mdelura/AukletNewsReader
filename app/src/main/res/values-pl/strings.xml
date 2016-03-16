@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Auklet News Reader</string>
     <string name="action_channels">Kanały</string>
     <string name="action_settings">Ustawienia</string>
     <string name="add_channels">Dodaj kanały</string>
-    <string name="content_authority" translatable="false"></string>
     <string name="noChannels">Nie znaleziono kanałów.</string>
     <string name="noConnection">Brak połączenia z Internetem.</string>
     <string name="no_channels_selected">Nie wybrałeś żadnych kanałów, Proszę, wybierz kanały z listy.</string>

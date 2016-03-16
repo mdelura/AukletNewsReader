@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Auklet News Reader</string>
+    <string name="app_name" translatable="false">Auklet News Reader</string>
     <string name="action_settings">Settings</string>
     <string name="thumbnail_description">News image</string>
 
